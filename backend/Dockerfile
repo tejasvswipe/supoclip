@@ -33,6 +33,8 @@ COPY pyproject.toml uv.lock* ./
 
 # New self-hosted setups can select CPU wheels without changing legacy builds.
 ARG BACKEND_CPU_ONLY=false
+ENV UV_HTTP_TIMEOUT=300
+ENV UV_HTTP_RETRIES=5
 RUN uv venv .venv && \
     if [ "$BACKEND_CPU_ONLY" = "true" ]; then \
       uv sync --frozen --extra cpu; \
